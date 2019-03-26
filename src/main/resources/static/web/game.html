@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Salvo</title>
+  </head>
+
+  <body>
+    <div class="containerHome" id="app">
+
+ <!-- ---------------Buttons and music ---------------------------------------------------------------------------------------------->
+     
+<div class="dropdown">
+  <button class="dropbtn">Menu</button>
+  <div class="dropdown-content">
+<a v-on:click="goHome">Home</a>
+<a v-on:click="playMusic('pause')">Pause music</a>
+<a v-on:click="openModal">How to play</a>
+  </div>
+</div>
+ 
+      <audio src="./assets/song.mp3" id="song"></audio>
+      <audio src="./assets/beep.mp3" id="beep"></audio>
+      <audio src="./assets/land.mp3" id="land"></audio>
+      
+      <!-- ---------------TITLE ---------------------------------------------------------------------------------------------->
+      <!-- <div class="titleDiv">
+        <h1 id="gameTitle">TACO GALACTICA</h1>
+      </div> -->
+      <!----------------- MODAL ---------------------------------------------------------------------------------------------->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span v-on:click="closeModal" class="close">&times;</span>
+          <div class="infoTxt">
+          <h2>
+            Welcome to Taco Galactica! 
+          </h2>
+          <p>Here are some info about the game</p>
+          <p>Place your space truck on the left grid by dragging them</p>
+          <p>Place your shots on the right grid by clicking on the cells</p>
+          <p>You have 5 shots per turn. Once you added the shots hit the shoot button</p>
+          </div>
+          <div class="infoDiv">
+            <h2>Ship</h2>
+            <img src="./assets/space_taco.gif" id="infoGif" />
+          </div>
+          <div class="infoDiv">
+            <h2>Shot</h2>
+            <img src="./assets/salsa.gif" id="infoGif" />
+          </div>
+          <div class="infoDiv">
+            <h2>Hit</h2>
+            <img src="./assets/hit.gif" id="infoGif" />
+          </div>
+          <input type="checkbox" v-on:change="removeModal()"> Do not show again<br>
+        </div>
+      </div>
+
+
+      <!---TABLE 1 player ships + enemy hits-------------------->
+      <div class="tables">
+          <!-- --------------- SHIPS ---------------------------------------------------------------------------------------------->
+          
+        <table align="center" id="t1">
+          <!-- first row with numbers  ----------------->
+          <tr>
+            <th></th>
+            <th v-for="number in x_axis" class="labels">{{ number }}</th>
+          </tr>
+          <!-- ---------------each row begins with a letter then 10 cells are added then it goes to next letter------------------- -->
+          <tr v-for="letter in y_axis" class="table_cells">
+            <td class="labels">{{ letter }}</td>
+            <td
+              v-for="cell in 10"
+              class="table_cells"
+              v-drag-and-drop
+              v-bind:id="`${letter}${cell}`"
+              v-on:dragover="dragOver"
+              v-on:dragleave="dragLeave"
+              v-on:drop="drop"
+            >
+              {{ letter }}{{ cell }}
+            </td>
+          </tr>
+        </table>
+
+        <!----------------- TABLE 2 player hits-------------------->
+        <div class="enemy_side">
+          <table align="center" id="t2">
+            <!---------------- first row with numbers  ----------------->
+            <tr>
+              <th></th>
+              <th v-for="number in x_axis" class="labels">{{ number }}</th>
+            </tr>
+            <!-----------------each row begins with a letter then 10 cells are added then it goes to next letter ----------------->
+            <tr v-for="letter in y_axis" class="table_cells_enemy">
+              <td class="labels">{{ letter }}</td>
+              <td
+              draggable="false"
+                v-for="cell in 10"
+                class="table_cells_enemy"
+                v-bind:id="`${letter}${cell}s`"
+                v-on:click="addSalvoes"
+              >
+                {{ letter }}{{ cell }}
+              </td>
+            </tr>
+          </table>
+
+          <div class="gameOptionsBtn">
+            <div class="gameBtnDiv">
+              <button type="button" name="salvoes" v-on:click="postSalvoes">
+                Shoot Salvoes
+              </button>
+            </div>
+            </div>
+          </div>
+        </div>
+<div v-if="placeShips" class="shipsFlex">
+  <!-- CARRIER ------------------ -->
+  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="carrierDiv">
+    <!-- rotate icon ------ -->
+    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('carrier')" style="cursor:pointer" />
+
+    <!-- ship -->
+    <img src="./assets/truckSmall.png" id="carrier" />
+  </div>
+
+  <!-- BATTLESHIP ------------------ -->
+
+  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="battleshipDiv">
+    <!-- rotate icon ------ -->
+    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('battleship')" style="cursor:pointer"/>
+
+    <!-- ship -->
+
+    <img src="./assets/truckSmall.png" id="battleship" />
+  </div>
+
+  <!-- DESTROYER ------------------ -->
+  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="destroyerDiv">
+    <!-- rotate icon ------ -->
+    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('destroyer')" style="cursor:pointer"/>
+
+    <!-- ship -->
+
+    <img src="./assets/truckSmall.png" id="destroyer" />
+  </div>
+
+  <!-- FIGHTER ------------------ -->
+  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="fighterDiv">
+    <!-- rotate icon ------ -->
+    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('fighter')" style="cursor:pointer" />
+
+    <!-- ship -->
+
+    <img src="./assets/truckSmall.png" id="fighter" />
+  </div>
+
+  <!-- PATROL ------------------ -->
+
+  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="patrolDiv">
+    <!-- rotate icon ------ -->
+    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('patrol')" style="cursor:pointer" />
+
+    <!-- ship -->
+
+    <img src="./assets/truckSmall.png" id="patrol" />
+  </div>
+</div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="scripts/dragdrop.js"></script>
+    <script src="scripts/game.js"></script>
+    <link rel="stylesheet" href="styles/games_style.css" />
+  </body>
+</html>

@@ -1,0 +1,814 @@
+@font-face {
+  src: url(../fonts/Staatliches-Regular.ttf);
+  font-family: staatliches;
+}
+
+/* SHARED STYLE ----------------------------------------------------------------------------------*/
+body {
+  font-family: staatliches;
+  color: white;
+  background-image: url("../assets/spinning.gif");
+  background-size: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+/* GAMES STYLE ----------------------------------------------------------------------------------*/
+.login {
+  /* background-image: url("../assets/background_title.gif"); */
+  background-image: none;
+  background-color: #3f2a47;
+  margin-bottom: 10%;
+}
+#loginTitle {
+  color: #d7c826;
+  font-size: 150px;
+  margin: 0px;
+  letter-spacing: 4px;
+}
+.loginTitleDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.login_signup_div {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+.login_signup {
+      padding: 5px;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  height: 350px;
+  width: 250px;
+  border-radius: 10px;
+  /* border: solid #d7c826 2px; */
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  text-align: center;
+  margin-bottom: 5%;
+  background-color: #3f2a47;
+  border: solid #d7c826; 3px;
+}
+/* GAMES STYLE ----------------------------------------------------------------------------------*/
+
+.home {
+  background-image: none;
+  background-color: #3f2a47;
+  display: flex;
+  direction: row;
+}
+
+.titleDiv{
+  display: flex;
+  justify-content: center;
+}
+
+/* login and signup -----------------------------------*/
+.login_signup_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.login_signup h2 {
+  text-align: center;
+  font-size: 40px;
+  color: #d7c826;
+}
+
+.inputBox {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid #d7c826 3px;
+  font-family: staatliches;
+  font-size: 15px;
+  background: none;
+  width: 150px;
+  text-align: center;
+  align-self: center;
+  margin: 15px;
+}
+::placeholder {
+  color: white;
+  padding: 10px;
+}
+input {
+  padding: 10px;
+  color: white;
+}
+button {
+  cursor: pointer;
+  background: transparent;
+  border: solid #d7c826 3px;
+  border-radius: 10px;
+  padding: 5px;
+  margin-right: 35px;
+  margin-left: 35px;
+  color: white;
+  font-family: staatliches;
+  font-size: 15px;
+}
+.otherBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.menu_table_div {
+  /* background-image: url("../assets/cloud.gif");
+  background-size: 100%; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #d7c826;
+  background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+
+  border: solid #d7c826 3px;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  height: 400px;
+  width: 190px;
+}
+#menuTaco {
+  height: 120px;
+  width: 120px;
+}
+#menuBtns {
+  width: 150px;
+  margin-top: 10px;
+}
+/* game tables -----------------------------------*/
+
+.gameDiv{
+   background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+display: flex;
+flex-direction: column;
+justify-content: center;
+height: 400px;
+width: 300px;;
+  border: solid #d7c826 3px;
+  border-radius: 10px;
+
+}
+.gameSection{
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+    text-align: center;
+}
+
+
+.gamesTable {
+   background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+  border: solid #d7c826 3px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
+  
+}
+
+.gamesTable h2{
+  text-align: center;
+  font-size: 50px;
+  color: #d7c826;
+
+}
+
+.gamesTable tr{
+        display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+}
+.secondTable{
+
+  margin-left: 3%;
+  margin-bottom: 100px;
+}
+
+
+tbody td {
+  border-style: solid;
+  border-color: #d7c826;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px;
+  align-self: center;
+}
+
+thead {
+ 
+  font-size: 20px;
+}
+thead td {
+  text-align: center;
+    border: none;
+  padding: 5px;
+}
+#gameBtn {
+  margin-bottom: 10px;
+  border: none;
+}
+.homeImages {
+  display: flex;
+  flex-direction: row;
+}
+#truckLarge {
+  margin-top: 30px;
+  height: 210px;
+  width: 430px;
+  align-self: center;
+}
+#tacoLarge {
+  margin-top: 30px;
+  align-self: center;
+  height: 50px;
+  width: 50px;
+}
+/* GAME STYLE ----------------------------------------------------------------------------------*/
+#gameTitle {
+  align-self: center;
+  
+  margin: 5px;
+}
+.titleDiv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+/* buttons -> drop down menu */
+
+
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff5c;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+    border-radius: 10px;
+
+}
+
+.dropdown-content a:hover {background-color: #3f2a47;   color: #d7c826; cursor: pointer;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {text-decoration:underline #d7c826; color: #d7c826;}
+
+
+
+
+
+.tacoDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#tacoTitle {
+  height: 200px;
+  width: 300px;
+  padding: 20px;
+}
+.gameOptionsBtn {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+.gameBtnDiv {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-self: center;
+}
+.gameBtnDiv button {
+  background-color: #280129;
+}
+.tables {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  color: white;
+  margin-top: 10px;
+  /* background-color: rgba(48, 48, 48, 0.7); */
+}
+#t1 {
+  margin-left: 5px;
+  margin-right: 0px;
+}
+
+.table_cells {
+  border: 1px solid white;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  cursor: pointer;
+}
+.table_cells_enemy {
+  border: 1px solid white;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+.enemy_side {
+  display: flex;
+  flex-direction: column;
+}
+
+.labels {
+  border-style: none;
+  text-align: center;
+}
+
+.ship {
+  background-color: #2dc84d;
+  color: black;
+}
+
+.salvo {
+  background: transparent;
+  background-image: url("../assets/salsa.gif");
+  background-size: 120%;
+  color: transparent;
+}
+
+.hit {
+  background-image: url("../assets/hit.gif");
+  background-size: 100%;
+  background-color: none;
+  color: transparent;
+}
+
+.invisible {
+  background: none;
+  color: red;
+}
+
+.drop {
+  background: transparent;
+  background-image: url("../assets/space_taco.gif");
+  background-size: 100%;
+  color: transparent;
+}
+
+.horizontal {
+  transform: rotate(0deg);
+}
+
+.vertical {
+  transform: rotate(-90deg);
+}
+.shipsFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+      margin-top: 10px;
+}
+.shipDiv {
+  padding: 1px;
+      margin-right: 30px;
+}
+/* SHIP STYLE (big to small) ----------------------------------------------------------------------------------*/
+#carrier {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  cursor: grab;
+}
+
+#battleship {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  cursor: grab;
+}
+
+#destroyer {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  cursor: grab;
+}
+#fighter {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  cursor: grab;
+}
+#patrol {
+  width: 160px;
+  height: 80px;
+  position: relative;
+  cursor: grab;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+  margin: auto;
+  padding: 20px;
+ border: solid #d7c826 3px;
+  border-radius: 10px;  width: 80%;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.modal-content p {
+  align-self: center;
+  font-size: 20px;
+}
+.modal-content h2 {
+  font-size: 35px;
+  color: #d7c826;
+}
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+#infoGif {
+  width: 100px;
+  height: 100px;
+}
+.infoDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.infoTxt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* CAROUSEL ----------------------------------------- */
+
+/* style */
+#fightIcon{
+  height: 64px;
+    width: 64px;
+    align-self: center;}    
+#gameIdDate h2{
+  font-size: 70px;
+    color: #6ebb2b;
+    padding: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+#gameIdDate h5{
+  font-size: 20px;
+    color: white;
+    font-weight: 100;
+    margin-top: opx;
+    margin-top: 0px;
+}
+#playerUsername h2{
+      font-size: 20px;
+padding: 3px;
+    color: #6ebb2b;
+}
+
+/* The Close Button */
+.close {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button {
+    margin-left: 0 3%;
+   
+    cursor: pointer;
+}
+
+.button--inactive {
+    opacity: 0.2;
+}
+
+.button img {
+    width: 60%;
+}
+
+.cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cards__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25rem;
+}
+
+.box {
+/*     margin: -1.5rem; */
+    width: 12rem;
+    height: 20rem;
+    box-shadow: 0px 0px 2rem 0px #888888;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* transition: 1s all; */
+}
+
+.box:nth-child(2n) {
+    transform: scale(0.85);
+    z-index: -1;
+}
+
+.box:nth-child(2) {
+  left: 5%;
+}
+
+.box:nth-child(4) {
+  left: -5%;
+}
+
+.box:nth-child(4n + 1) {
+    transform: scale(0.75);
+    z-index: -2;
+}
+
+.box:nth-child(1) {
+  left: 15%;
+}
+
+.box:nth-child(5) {
+  left: -15%;
+}
+
+
+
+
+
+.box--hide {
+    display: none;
+}
+
+.move-out-from-left {
+    animation: moveOutLeft 0.5s ease-in-out;
+}
+
+.move-out-from-right {
+    animation: moveOutRight 0.5s ease-in-out;
+}
+
+.move-to-position5-from-left {
+    animation: moveToP5Left 0.5s ease-in-out;
+}
+
+.move-to-position4-from-left {
+    animation: moveToP4Left 0.5s ease-in-out;
+}
+
+.move-to-position3-from-left {
+    animation: moveToP3Left 0.5s ease-in-out;
+}
+
+.move-to-position2-from-left {
+    animation: moveToP2Left 0.5s ease-in-out;
+}
+
+
+.move-to-position1-from-left{
+    animation: moveToP1Left 0.5s ease-in-out;
+}
+
+.move-to-position5-from-right{
+    animation: moveToP5Right 0.5s ease-in-out;
+}
+.move-to-position4-from-right{
+    animation: moveToP4Right 0.5s ease-in-out;
+}
+.move-to-position3-from-right{
+    animation: moveToP3Right 0.5s ease-in-out;
+}
+.move-to-position2-from-right{
+    animation: moveToP2Right 0.5s ease-in-out;
+}
+.move-to-position1-from-right{
+    animation: moveToP1Right 0.5s ease-in-out;
+}
+
+@keyframes moveOutLeft {
+    0% {
+        transform: scale(0.75) translateX(0%);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.5) translateX(-150%);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0.25) translateX(0%);
+        opacity: 0;
+    }
+}
+
+@keyframes moveOutRight {
+    0% {
+        transform: scale(0.75) translateX(0%);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.5) translateX(150%);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0.25) translateX(0%);
+        opacity: 0;
+    }
+}
+
+
+@keyframes moveToP5Left {
+    from {
+        transform: scale(0.75) translateX(100%);
+    }
+    to {
+        transform: scale(0.75) translateX(0);
+    }
+}
+
+@keyframes moveToP4Left {
+    from {
+        transform: scale(0.75) translateX(100%);
+    }
+    to {
+        transform: scale(0.85) translateX(0);
+    }
+}
+
+@keyframes moveToP3Left {
+    from {
+        transform: scale(0.85) translateX(100%);
+    }
+    to {
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes moveToP2Left {
+    from {
+        transform: scale(1) translateX(100%);
+    }
+    to {
+        transform: scale(0.85) translateX(0);
+    }
+}
+
+@keyframes moveToP1Left {
+    from {
+        transform: scale(0.85) translateX(100%);
+    }
+    to {
+        transform: scale(0.75) translateX(0);
+    }
+}
+
+
+@keyframes moveToP1Right {
+    from {
+        transform: scale(0.75) translateX(-100%);
+    }
+    to {
+        transform: scale(0.75) translateX(0);
+    }
+}
+
+@keyframes moveToP2Right {
+    from {
+        transform: scale(0.75) translateX(-100%);
+    }
+    to {
+        transform: scale(0.85) translateX(0);
+    }
+}
+
+@keyframes moveToP3Right {
+    from {
+        transform: scale(0.85) translateX(-100%);
+    }
+    to {
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes moveToP4Right {
+    from {
+        transform: scale(1) translateX(-100%);
+    }
+    to {
+        transform: scale(0.85) translateX(0);
+    }
+}
+
+@keyframes moveToP5Right {
+    from {
+        transform: scale(0.85) translateX(-100%);
+    }
+    to {
+        transform: scale(0.75) translateX(0);
+    }
+}
+

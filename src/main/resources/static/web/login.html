@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="styles/games_style.css" />
+
+  <head>
+    <title>Salvo</title>
+  </head>
+
+  <body class="login">
+    <!---MUSIC------------------------------------------------------------------------------------>
+    <audio src="./assets/login.mp3" id="loginMusic"></audio>
+    <div class="containerHome" id="app">
+      <div class="loginTitleDiv">
+        <img
+          src="./assets/taco_galactica_title.gif"
+          id="loginTitle"
+          draggable="false"
+        />
+      </div>
+      <!-- <h1 id="loginTitle">Taco Galactica</h1> -->
+
+      <div class="login_signup_div">
+        <div class="login_signup">
+          <img src="./assets/loginTXT.gif" alt="" draggable="false" />
+          <input
+            class="inputBox"
+            type="text"
+            name="Username"
+            placeholder="Username"
+            v-model="userName"
+          />
+          <input
+            class="inputBox"
+            type="text"
+            name="Password"
+            placeholder="password"
+            v-model="password"
+            v-on:keyup.enter="login"
+          />
+          <button
+            type="button"
+            name="Login"
+            v-on:click="login"
+            aria-placeholder="Login"
+          >
+            login
+          </button>
+        </div>
+        <div class="login_signup">
+          <img src="./assets/signupTXT.gif" alt="" draggable="false" />
+
+          <input
+            class="inputBox"
+            type="text"
+            name="Username"
+            placeholder="Username"
+            v-model="new_userName"
+          />
+          <input
+            class="inputBox"
+            type="text"
+            name="Password"
+            placeholder="Password"
+            v-model="new_password"
+            v-on:keyup.enter="signup"
+          />
+          <button type="button" name="Signup" v-on:click="signup">
+            Signup
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src=" https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <script src="scripts/games.js"></script>
+</html>
