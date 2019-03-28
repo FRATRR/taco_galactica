@@ -26,8 +26,8 @@
       <!-- <div class="titleDiv">
         <h1 id="gameTitle">TACO GALACTICA</h1>
       </div> -->
-      <!----------------- MODAL ---------------------------------------------------------------------------------------------->
-      <div id="myModal" class="modal">
+      <!----------------- MODAL HOW TO  ---------------------------------------------------------------------------------------------->
+      <div id="howto" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
           <span v-on:click="closeModal" class="close">&times;</span>
@@ -56,11 +56,95 @@
         </div>
       </div>
 
+      <!----------------- MODAL INFO  ---------------------------------------------------------------------------------------------->
+
+      <div id="salvoInfo" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span v-on:click="closeModal('salvoInfo')" class="close">&times;</span>
+          <div class="infoTxt">
+            <h2>
+             You cannot shoot yet!
+            </h2>
+            <p>Waiting for the other player to be done</p>
+          </div>
+          <div class="infoDiv">
+            <h2>Ship</h2>
+            <img src="./assets/space_taco.gif" id="infoGif" />
+          </div>
+          <div class="infoDiv">
+            <h2>Shot</h2>
+            <img src="./assets/salsa.gif" id="infoGif" />
+          </div>
+          <div class="infoDiv">
+            <h2>Hit</h2>
+            <img src="./assets/hit.gif" id="infoGif" />
+          </div>
+          <input type="checkbox" v-on:change="removeModal()"> Do not show again<br>
+        </div>
+      </div>
+
+      <div>
+
+
+      </div>
+
 
       <!---TABLE 1 player ships + enemy hits-------------------->
       <div class="tables">
           <!-- --------------- SHIPS ---------------------------------------------------------------------------------------------->
+          <div v-if="placeShips" class="shipsFlex">
+            <!-- CARRIER ------------------ -->
+            <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="carrierDiv">
+              <!-- rotate icon ------ -->
+              <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('carrier')" style="cursor:pointer" />
           
+              <!-- ship -->
+              <img src="./assets/truckSmall.png" id="carrier" />
+            </div>
+          
+            <!-- BATTLESHIP ------------------ -->
+          
+            <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="battleshipDiv">
+              <!-- rotate icon ------ -->
+              <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('battleship')" style="cursor:pointer" />
+          
+              <!-- ship -->
+          
+              <img src="./assets/truckSmall.png" id="battleship" />
+            </div>
+          
+            <!-- DESTROYER ------------------ -->
+            <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="destroyerDiv">
+              <!-- rotate icon ------ -->
+              <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('destroyer')" style="cursor:pointer" />
+          
+              <!-- ship -->
+          
+              <img src="./assets/truckSmall.png" id="destroyer" />
+            </div>
+          
+            <!-- FIGHTER ------------------ -->
+            <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="fighterDiv">
+              <!-- rotate icon ------ -->
+              <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('fighter')" style="cursor:pointer" />
+          
+              <!-- ship -->
+          
+              <img src="./assets/truckSmall.png" id="fighter" />
+            </div>
+          
+            <!-- PATROL ------------------ -->
+          
+            <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="patrolDiv">
+              <!-- rotate icon ------ -->
+              <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('patrol')" style="cursor:pointer" />
+          
+              <!-- ship -->
+          
+              <img src="./assets/truckSmall.png" id="patrol" />
+            </div>
+          </div>
         <table align="center" id="t1">
           <!-- first row with numbers  ----------------->
           <tr>
@@ -116,58 +200,7 @@
             </div>
           </div>
         </div>
-<div v-if="placeShips" class="shipsFlex">
-  <!-- CARRIER ------------------ -->
-  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="carrierDiv">
-    <!-- rotate icon ------ -->
-    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('carrier')" style="cursor:pointer" />
 
-    <!-- ship -->
-    <img src="./assets/truckSmall.png" id="carrier" />
-  </div>
-
-  <!-- BATTLESHIP ------------------ -->
-
-  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="battleshipDiv">
-    <!-- rotate icon ------ -->
-    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('battleship')" style="cursor:pointer"/>
-
-    <!-- ship -->
-
-    <img src="./assets/truckSmall.png" id="battleship" />
-  </div>
-
-  <!-- DESTROYER ------------------ -->
-  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="destroyerDiv">
-    <!-- rotate icon ------ -->
-    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('destroyer')" style="cursor:pointer"/>
-
-    <!-- ship -->
-
-    <img src="./assets/truckSmall.png" id="destroyer" />
-  </div>
-
-  <!-- FIGHTER ------------------ -->
-  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="fighterDiv">
-    <!-- rotate icon ------ -->
-    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('fighter')" style="cursor:pointer" />
-
-    <!-- ship -->
-
-    <img src="./assets/truckSmall.png" id="fighter" />
-  </div>
-
-  <!-- PATROL ------------------ -->
-
-  <div draggable="true" v-on:dragstart="dragStart" class="shipDiv" id="patrolDiv">
-    <!-- rotate icon ------ -->
-    <img src="./assets/rotate.png" alt="rotate" v-on:click="rotation('patrol')" style="cursor:pointer" />
-
-    <!-- ship -->
-
-    <img src="./assets/truckSmall.png" id="patrol" />
-  </div>
-</div>
       </div>
     </div>
 

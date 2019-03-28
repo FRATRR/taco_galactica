@@ -13,6 +13,7 @@ var app = new Vue({
     playerSalvoes: [],
     hits: [],
     shots: [],
+    fleet: [],
     x_axis: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     y_axis: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     player: null,
@@ -20,11 +21,11 @@ var app = new Vue({
     rotatingShip: null,
     ship: null,
     length: null,
-    vertical: false,
+    turn: null,
     horizontal: true,
     hide: true,
-    placeShips: true,
-    turn: null,
+    vertical: false,
+    placeShips: false,
     shooting: false,
     backgroundAudio: "song",
     span: document.getElementsByClassName("close")[0],
@@ -34,8 +35,19 @@ var app = new Vue({
     this.getPlayer();
     this.getData();
     this.playMusic("song");
-    this.openModal();
+
     // this.statusCheck();
+  },
+
+  watch: {
+    player: function() {
+      if (this.player.Howto == true) {
+        console.log("yes modal");
+        this.openModal();
+      } else {
+        console.log("no modal");
+      }
+    }
   },
 
   methods: {
@@ -76,6 +88,11 @@ var app = new Vue({
           })
           .then(function(jsonData) {
             app.game = jsonData;
+            if (app.game.ships.length == 5) {
+              app.placeShips = false;
+            } else {
+              app.placeShips = true;
+            }
             app.checkShip();
             app.checkSalvoes();
           });
@@ -141,7 +158,26 @@ var app = new Vue({
           body: JSON.stringify({ shotsLocations: shotsLocations })
         })
           .then(function(data) {
-            console.log("Request success: ", data);
+            console.log("Request success: ", data.status);
+            if (data.status == 403) {
+              alert(
+                "You cannot shoot yet. Wait for opponent to place the ships"
+              );
+              for (var i = 0; i < app.selectedSalvoes.length; i++) {
+                console.log("removing -> " + app.selectedSalvoes[i] + "s");
+                document
+                  .getElementById(app.selectedSalvoes[i] + "s")
+                  .classList.remove("salvo");
+              }
+            } else if (data.status == 200) {
+              alert("You cannot shoot yet. Opponent still shooting.");
+              for (var i = 0; i < app.selectedSalvoes.length; i++) {
+                console.log("removing -> " + app.selectedSalvoes[i] + "s");
+                document
+                  .getElementById(app.selectedSalvoes[i] + "s")
+                  .classList.remove("salvo");
+              }
+            }
             app.selectedSalvoes = [];
           })
           .catch(function(error) {
@@ -157,14 +193,15 @@ var app = new Vue({
       var cell = e.target.id;
       var row = e.target.id.charAt(0);
       var column = e.target.id.charAt(1);
-      var cellID = row + column;
+
+      var cellID = cell.substring(0, cell.length - 1);
 
       //adding salvo class
       if (this.selectedSalvoes.length < 5) {
         this.selectedSalvoes.push(cellID);
         document.getElementById(cell).classList.add("salvo");
       } else if ((this.selectedSalvoes.length = 5)) {
-        console.log("Shoot salvoes!");
+        alert("no more shots. shoot!");
       }
     },
 
@@ -173,7 +210,6 @@ var app = new Vue({
 
       for (let gp of this.game.gamePlayers) {
         if (this.player.Username == gp.Player.Username) {
-          console.log("same");
           this.shots = gp.salvos;
         }
       }
@@ -243,7 +279,6 @@ var app = new Vue({
 
                 this.hits.push(this.ships[y].Locations[i]);
               } else {
-                console.log("salvo" + this.salvoes[x].shots[e]);
                 document
                   .getElementById(this.salvoes[x].shots[e])
                   .classList.add("salvo");
@@ -475,18 +510,14 @@ var app = new Vue({
     },
     //------- MODAL-------------------------------------------------------------------------------------------
 
-    openModal() {
-      console.log(this.player);
-
-      // if ((this.player.Howto = true)) {
-      document.getElementById("myModal").style.visibility = "visible";
+    openModal(selectedModal) {
+      console.log("opening modal ->" + selectedModal);
+      document.getElementById(selectedModal).style.visibility = "visible";
       this.modal.style.display = "block";
-      // }
     },
-    closeModal() {
-      // var element = document.getElementById("myModal");
-      // element.parentNode.removeChild(element);
-      document.getElementById("myModal").style.visibility = "hidden";
+    closeModal(selectedModal) {
+      console.log("closing modal");
+      document.getElementById(selectedModal).style.visibility = "hidden";
     },
     goHome() {
       location.href = "http://localhost:8080/web/games.html";

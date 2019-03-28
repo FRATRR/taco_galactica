@@ -217,19 +217,24 @@ public class SalvoController {
         GamePlayer currentGP = gamePlayerRepository.getOne(gamePlayerId);
         Integer turn = currentGP.getSalvos().size() + 1;
         System.out.println("Opponent => " + getOpponent(currentGP).getPlayer().getUserName() + "Number of ships =>" + getOpponent(currentGP).getShips().size());
+        if (getOpponent(currentGP) != null) {
+            if (currentPlayer.getId() == currentGP.getPlayer().getId() && getOpponent(currentGP).getShips().size() == 5 && currentGP.getSalvos().size() <= getOpponent(currentGP).getSalvos().size()) {
+                salvo.setGamePlayer(currentGP);
+                salvo.setTurn(turn);
+                salvoRepository.save(salvo);
 
-        if (currentPlayer.getId() == currentGP.getPlayer().getId() && getOpponent(currentGP).getShips().size() == 5) {
-            salvo.setGamePlayer(currentGP);
-            salvo.setTurn(turn);
-            salvoRepository.save(salvo);
+                return new ResponseEntity<>("Salvoes added", HttpStatus.CREATED);
 
-            return new ResponseEntity<>("Salvoes added", HttpStatus.CREATED);
+            } else if (currentPlayer.getId() != currentGP.getPlayer().getId()) {
+                return new ResponseEntity<>("Log in or signup", HttpStatus.UNAUTHORIZED);
 
-        } else if (currentPlayer.getId() != currentGP.getPlayer().getId()) {
-            return new ResponseEntity<>("Log in or signup", HttpStatus.UNAUTHORIZED);
-
-        } else if (getOpponent(currentGP).getShips().size() < 5) {
-            return new ResponseEntity<>("Wait for opponent to place all the ships", HttpStatus.FORBIDDEN);
+            } else if (getOpponent(currentGP).getShips().size() < 5) {
+                return new ResponseEntity<>("Wait for opponent to place all the ships", HttpStatus.FORBIDDEN);
+            } else {
+                return null;
+            }
+        } else if (getOpponent(currentGP) == null) {
+            return new ResponseEntity<>("No opponent", HttpStatus.FORBIDDEN);
         } else {
             return null;
         }
@@ -300,80 +305,84 @@ public class SalvoController {
 
     public List<Object> salvoInfo(GamePlayer gamePlayer) {
 
-        //new list to return
-        List<Object> salvoesInfoList = new ArrayList<>();
+if(getOpponent(gamePlayer) != null) {
+    //new list to return
+    List<Object> salvoesInfoList = new ArrayList<>();
 
-        //opponent ships list
-        ArrayList<Ship> opponentShipsList = new ArrayList<Ship>(getOpponent(gamePlayer).getShips());
+    //opponent ships list
+    ArrayList<Ship> opponentShipsList = new ArrayList<Ship>(getOpponent(gamePlayer).getShips());
 
-        //all salvoes list
-        List<Salvo> allSalvoesList = new ArrayList<>(gamePlayer.getSalvos());
+    //all salvoes list
+    List<Salvo> allSalvoesList = new ArrayList<>(gamePlayer.getSalvos());
 
-        allSalvoesList.sort(Comparator.comparingInt(Salvo::getTurn));
+    allSalvoesList.sort(Comparator.comparingInt(Salvo::getTurn));
 
-        //accumolated salvoes list
-        ArrayList<String> accSalvoes = new ArrayList<>();
+    //accumulated salvoes list
+    ArrayList<String> accSalvoes = new ArrayList<>();
 
-        //looping  trough all salvoes
+    //looping  trough all salvoes
 
-        //1st loop SALVO
-        for (Salvo salvo : allSalvoesList) {
-            Map<String, Object> salvoInfo = new LinkedHashMap<>();
-            List<Object> fleetInfo = new ArrayList<>();
+    //1st loop SALVO
+    for (Salvo salvo : allSalvoesList) {
+        Map<String, Object> salvoInfo = new LinkedHashMap<>();
+        List<Object> fleetInfo = new ArrayList<>();
 
-            accSalvoes.addAll(salvo.getShotsLocations());
-            //2nd loop SHIP
-            for (Ship ship : opponentShipsList) {
-                Map<String, Object> shipSatus = new LinkedHashMap<>();
-                ArrayList<String> turnHits = new ArrayList<>();
-                ArrayList<String> accHits = new ArrayList<>();
+        accSalvoes.addAll(salvo.getShotsLocations());
+        //2nd loop SHIP
+        for (Ship ship : opponentShipsList) {
+            Map<String, Object> shipSatus = new LinkedHashMap<>();
+            ArrayList<String> turnHits = new ArrayList<>();
+            ArrayList<String> accHits = new ArrayList<>();
 
-                // 3rd loop SHIP LOCATIONS
-                for (String shipLoc : ship.getLocations()) {
+            // 3rd loop SHIP LOCATIONS
+            for (String shipLoc : ship.getLocations()) {
 
-                    // 4th loop SALVO LOCATIONS
-                    for (String salvoLoc : salvo.getShotsLocations()) {
+                // 4th loop SALVO LOCATIONS
+                for (String salvoLoc : salvo.getShotsLocations()) {
 
-                        if (shipLoc == salvoLoc) {
+                    if (shipLoc == salvoLoc) {
 
-                            turnHits.add(shipLoc);
-                        }
-                    }
-                    //4th loop ACC SALVO LOCATIONS
-                    for (String salvoLoc2 : accSalvoes) {
-
-                        if (shipLoc == salvoLoc2) {
-
-                            accHits.add(shipLoc);
-                        }
+                        turnHits.add(shipLoc);
                     }
                 }
-                //adding info to ship obj
-                //shipSatus.put("hits", turnHits);
-                shipSatus.put("type", ship.getShipType());
-                shipSatus.put("Sunk", ship.getLocations().size() <= accHits.size());
+                //4th loop ACC SALVO LOCATIONS
+                for (String salvoLoc2 : accSalvoes) {
 
-                //add ship obj to list
-                fleetInfo.add(shipSatus);
+                    if (shipLoc == salvoLoc2) {
 
+                        accHits.add(shipLoc);
+                    }
+                }
             }
-            salvoInfo.put("turn", salvo.getTurn());
-            salvoInfo.put("fleet", fleetInfo);
+            //adding info to ship obj
+            //shipSatus.put("hits", turnHits);
+            shipSatus.put("type", ship.getShipType());
+            shipSatus.put("Sunk", ship.getLocations().size() <= accHits.size());
 
-            ArrayList<Object> hitList = new ArrayList<>(salvo.getShotsLocations());
-            ArrayList<Object> allOpponentShipLoc = new ArrayList<>(getOpponent(salvo.getGamePlayer()).getShips().stream()
-                    .map(ship -> ship.getLocations()).flatMap(List::stream)
-                    .collect(Collectors.toList()));
-            hitList.retainAll(allOpponentShipLoc);
-            salvoInfo.put("shots", accSalvoes);
-            salvoInfo.put("hits", hitList);
-            salvoesInfoList.add(salvoInfo);
-
+            //add ship obj to list
+            fleetInfo.add(shipSatus);
 
         }
+        salvoInfo.put("turn", salvo.getTurn());
+        salvoInfo.put("fleet", fleetInfo);
+
+        ArrayList<Object> hitList = new ArrayList<>(salvo.getShotsLocations());
+        ArrayList<Object> allOpponentShipLoc = new ArrayList<>(getOpponent(salvo.getGamePlayer()).getShips().stream()
+                .map(ship -> ship.getLocations()).flatMap(List::stream)
+                .collect(Collectors.toList()));
+        hitList.retainAll(allOpponentShipLoc);
+        salvoInfo.put("shots", accSalvoes);
+        salvoInfo.put("hits", hitList);
+        salvoesInfoList.add(salvoInfo);
 
 
-        return salvoesInfoList;
+    }
+    return salvoesInfoList;
+
+} else {
+
+    return null;
+}
     }
 
 

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>Salvo</title>
@@ -127,20 +128,20 @@
               <td>{{ game.id }}</td>
               <td>{{ game.created }}</td>
 
-              <td
-                class="gameSection"
-                v-if="game.gamePlayers.length == 2"
-                v-for=" gamePlayer in game.gamePlayers"
-              >
-                {{ gamePlayer.Player.Username }}
-              </td>
-
-              <td class="gameSection" v-if="game.gamePlayers.length == 1">
+              <!-- both players -->
+              <!-- <td v-if="game.gamePlayers.length == 2">
                 {{ game.gamePlayers[0].Player.Username }}
               </td>
-              <td class="gameSection" v-if="game.gamePlayers.length == 1">
-                Waiting for opponent
+              <td v-if="game.gamePlayers.length == 2">
+                {{ game.gamePlayers[1].Player.Username }}
+              </td> -->
+              <!-- one player-->
+              <!-- <td v-if="game.gamePlayers.length == 1">
+                {{ game.gamePlayers[1].Player.Username }}
               </td>
+              <td v-if="game.gamePlayers.length == 1">
+                Waiting for opponent
+              </td> -->
               <td id="gameBtn">
                 <button
                   v-for=" gamePlayer in game.gamePlayers"
