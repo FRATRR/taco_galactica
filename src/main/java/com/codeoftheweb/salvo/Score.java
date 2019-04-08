@@ -58,6 +58,7 @@ public class Score {
         return game;
     }
 
+
     //Setters----------------------------------------------------------------
 
     public void setPlayer(Player player) {
@@ -66,5 +67,9 @@ public class Score {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

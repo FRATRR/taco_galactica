@@ -8,6 +8,7 @@ var app = new Vue({
     player: null,
     gameList: [],
     playerGames: [],
+    otherGames: [],
     userName: "player_one@salvo.com",
     password: "password1",
     new_userName: "",
@@ -18,9 +19,6 @@ var app = new Vue({
   created: function() {
     this.getData();
     this.getPlayer();
-    if ((window.location.contains = "login")) {
-      this.playMusic("loginMusic");
-    }
     if ((window.location.contains = "games")) {
       this.playMusic("introSong");
     }
@@ -44,6 +42,7 @@ var app = new Vue({
     },
     //------- GET ALL DATA -------------------------------------------------------------------------------------------
     getData() {
+      console.log("checking data");
       // fetch games
       fetch("/api/games")
         .then(function(response) {
@@ -65,17 +64,24 @@ var app = new Vue({
 
     //------- GET LOGGED IN PLAYER GAMES -------------------------------------------------------------------------------------------
     getPlayerGames() {
-      console.log("getting player games");
       for (var x = 0; x < this.gameList.games.length; x++) {
-        console.log(x);
         for (var y = 0; y < this.gameList.games[x].gamePlayers.length; y++) {
-          console.log(y);
-
           if (
             this.gameList.games[x].gamePlayers[y].Player.Username ==
             this.gameList.player.Username
           ) {
             this.playerGames.push(this.gameList.games[x]);
+            // var index = this.gameList.indexOf(this.gameList.games[x]);
+            // console.log("index -> " + index);
+            // this.openGames.splice(2, 1);
+          } else if (
+            this.gameList.games[x].gamePlayers[y].Player.Username !=
+            this.gameList.player.Username
+          ) {
+            console.log(
+              "2nd if --->> game id --->> " + this.gameList.games[x].id
+            );
+            this.otherGames.push(this.gameList.games[x]);
           }
         }
       }
@@ -165,7 +171,7 @@ var app = new Vue({
           app.login();
         })
         .catch(function(error) {
-      window.alert("Wait for opponent");
+          window.alert("Wait for opponent");
         });
 
       function getBody(json) {
@@ -181,6 +187,7 @@ var app = new Vue({
 
     //------- OPEN GAME VIEW PAGE BASED ON USER -------------------------------------------------------------------------------------------
     openGame(id) {
+      console.log("opening game" + id);
       for (var x = 0; x < this.gameList.games.length; x++) {
         if (id == this.gameList.games[x].id) {
           this.current_game = this.gameList.games[x];
@@ -206,10 +213,20 @@ var app = new Vue({
     join(id) {
       url = "http://localhost:8080/api/game/" + id + "/players";
 
-      fetch(url);
-
-      this.getData();
-      this.getPlayer();
+      fetch(url)
+        .then(function(response) {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Unable to retrieve data");
+          }
+        })
+        .then(function(jsonData) {
+          console.log(jsonData.gp);
+          var url = "http://localhost:8080/web/game.html?gp=" + jsonData.gp;
+          console.log(url);
+          location.href = url;
+        });
     },
 
     //------- NEW GAME -------------------------------------------------------------------------------------------
@@ -231,7 +248,9 @@ var app = new Vue({
       })
         .then(function(data) {
           console.log("Request success: ", data);
-          // window.location.reload();
+          if (data.status == 201) {
+            app.getData();
+          }
         })
         .catch(function(error) {
           console.log("Request failure: ", error);

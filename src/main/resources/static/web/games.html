@@ -9,6 +9,7 @@
   <body class="home">
     <div class="containerHome" id="app">
       <!---MUSIC------------------------------------------------------------------------------------>
+
       <audio src="./assets/intro.mp3" id="introSong"></audio>
 
       <!---TITLE------------------------------------------------------------------------------------>
@@ -28,142 +29,74 @@
           </button>
           <button v-on:click="logout" id="menuBtns">Logout</button>
         </div>
+        <div class="secondTableDiv">
+          <h2 id="gamesTableTitle">games</h2>
+          <table
+            class="secondtable"
+            style="
+    color: #d7c826;
+    background-color: #3f2a47;
+    background-color: #3f2a47;
+    background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+    border: solid #d7c826 3px;
+    border-radius: 10px;
+"
+          >
+            <thead>
+              <tr>
+                <td>Game</td>
+                <td>Date</td>
+                <td>Player One</td>
+                <td>Player Two</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody class="tbodyGamesTable">
+              <tr v-for="game in gameList.games" :key="game.id" id="rowTable">
+                <td>{{ game.id }}</td>
+                <td>{{ game.created }}</td>
 
-        <!--- logged in player games------------------------------------------------------------------------------------>
-        <div class="container">
-          <div
-            class="button"
-            v-on:click="shiftLeft"
-            v-on:keyup.left="shiftLeft"
-          ></div>
-          <div class="cards-wrapper">
-            <ul class="cards__container">
-              <li class="box" v-for="game in playerGames" :key="game.id">
-                <div class="gameDiv">
-                  <div class="gameSection" id="gameIdDate">
-                    <h2>{{ game.id }}</h2>
-                    <h5>{{ game.created }}</h5>
-                  </div>
-                  <img src="./assets/fighting.png" id="fightIcon" />
-                  <!-- players divs -->
-                  <div
-                    class="gameSection"
-                    id="playerUsername"
-                    v-if="game.gamePlayers.length == 2"
+                <!-- both players -->
+                <td v-if="game.gamePlayers.length == 2">
+                  {{ game.gamePlayers[0].Player.Username }}
+                </td>
+                <td v-if="game.gamePlayers.length == 2">
+                  {{ game.gamePlayers[1].Player.Username }}
+                </td>
+                <!-- one player-->
+                <td v-if="game.gamePlayers.length == 1">
+                  {{ game.gamePlayers[0].Player.Username }}
+                </td>
+                <td v-if="game.gamePlayers.length == 1">
+                  Waiting for opponent
+                </td>
+                <td>
+                  <button
+                    style="color: black; background-color: transparent;"
                     v-for=" gamePlayer in game.gamePlayers"
+                    v-if="player.Username != null && player.Username == gamePlayer.Player.Username "
+                    v-on:click="openGame(game.id)"
                   >
-                    <h2>{{ gamePlayer.Player.Username }}</h2>
-                  </div>
+                    Go to Game
+                  </button>
+                  <button
+                    style="color: black; background-color: transparent;"
+                    v-for=" gamePlayer in game.gamePlayers"
+                    v-if="player.Username != null && player.Username != gamePlayer.Player.Username && game.gamePlayers.length == 1 "
+                    v-on:click="join(game.id)"
+                  >
+                    Join
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-                  <div
-                    class="gameSection"
-                    id="playerUsername"
-                    v-if="game.gamePlayers.length == 1"
-                  >
-                    <h2>{{ game.gamePlayers[0].Player.Username }}</h2>
-                  </div>
-                  <div
-                    class="gameSection"
-                    id="playerUsername"
-                    v-if="game.gamePlayers.length == 1"
-                  >
-                    <h2>Waiting for opponent</h2>
-                  </div>
-                  <!-- players divs end -->
-
-                  <div id="gameBtn" class="gameSection">
-                    <button
-                      v-for=" gamePlayer in game.gamePlayers"
-                      v-if="player.Username != null && player.Username == gamePlayer.Player.Username "
-                      v-on:click="openGame(game.id)"
-                    >
-                      Go to Game
-                    </button>
-                    <button
-                      v-for=" gamePlayer in game.gamePlayers"
-                      v-if="player.Username != null && player.Username != gamePlayer.Player.Username && game.gamePlayers.length == 1 "
-                      v-on:click="join(game.id)"
-                    >
-                      Join
-                    </button>
-                  </div>
-                </div>
-              </li>
-              <li class="box">
-                <div class="gameDiv"></div>
-              </li>
-              <li class="box">
-                <div class="gameDiv"></div>
-              </li>
-              <li class="box">
-                <div class="gameDiv"></div>
-              </li>
-              <li class="box">
-                <div class="gameDiv"></div>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="button"
-            v-on:click="shiftRight"
-            v-on:keyup.39="shifRight"
-          ></div>
+          <!-- games table div ends under-->
         </div>
-        <!---games end------------------------------------------------------------------------------------>
       </div>
       <!-- SECOND TABLE-->
-      <div class="gamesTable">
-        <h2>All games</h2>
-        <table class="secondTable">
-          <thead>
-            <tr>
-              <td>Game</td>
-              <td>Date</td>
-              <td>Player One</td>
-              <td>Player Two</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="game in gameList.games" :key="game.id" id="rowTable">
-              <td>{{ game.id }}</td>
-              <td>{{ game.created }}</td>
 
-              <!-- both players -->
-              <!-- <td v-if="game.gamePlayers.length == 2">
-                {{ game.gamePlayers[0].Player.Username }}
-              </td>
-              <td v-if="game.gamePlayers.length == 2">
-                {{ game.gamePlayers[1].Player.Username }}
-              </td> -->
-              <!-- one player-->
-              <!-- <td v-if="game.gamePlayers.length == 1">
-                {{ game.gamePlayers[1].Player.Username }}
-              </td>
-              <td v-if="game.gamePlayers.length == 1">
-                Waiting for opponent
-              </td> -->
-              <td id="gameBtn">
-                <button
-                  v-for=" gamePlayer in game.gamePlayers"
-                  v-if="player.Username != null && player.Username == gamePlayer.Player.Username "
-                  v-on:click="openGame(game.id)"
-                >
-                  Go to Game
-                </button>
-                <button
-                  v-for=" gamePlayer in game.gamePlayers"
-                  v-if="player.Username != null && player.Username != gamePlayer.Player.Username && game.gamePlayers.length == 1 "
-                  v-on:click="join(game.id)"
-                >
-                  Join
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- games table div ends under-->
-      </div>
       <!-- menu div ends under -->
 
       <!-- vue app div ends under -->

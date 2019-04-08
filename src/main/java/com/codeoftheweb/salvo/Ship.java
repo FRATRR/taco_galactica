@@ -14,6 +14,7 @@ public class Ship {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     private String shipType;
+    private boolean sunk;
     @ElementCollection
     @Column(name="location_id")
     private List<String> locations;
@@ -34,8 +35,6 @@ public class Ship {
 
     //Getters----------------------------------------------------------------
 
-
-
     public long getId() {
         return id;
     }
@@ -48,6 +47,16 @@ public class Ship {
         return locations;
     }
 
+    public boolean isSunk() {
+        return sunk;
+    }
+    //Setters----------------------------------------------------------------
+
+
+    public void setSunk(boolean sunk) {
+        this.sunk = sunk;
+    }
+
     //Constructor----------------------------------------------------------------
     public Ship() {
     }
@@ -56,6 +65,7 @@ public class Ship {
         this.shipType = shipType;
         this.gamePlayer = gamePlayer;
         this.locations = locations;
+        this.sunk = false;
     }
 
 }

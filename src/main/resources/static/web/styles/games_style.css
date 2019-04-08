@@ -61,8 +61,6 @@ h1 {
 .home {
   background-image: none;
   background-color: #3f2a47;
-  display: flex;
-  direction: row;
 }
 
 .titleDiv{
@@ -127,8 +125,7 @@ button {
   background-size: 100%; */
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-}
+    justify-content: space-around;}
 .menu {
   display: flex;
   flex-direction: column;
@@ -144,6 +141,10 @@ background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
   margin: 10px;
   height: 400px;
   width: 190px;
+}
+
+.menu h2{
+  font-size: 20px;
 }
 #menuTaco {
   height: 120px;
@@ -176,15 +177,22 @@ justify-content: center;
 }
 
 /* second table -------------------------------- */
+.secondTableDiv{
+display: flex;
+flex-direction: column;
+justify-content: center;
+    
+}
+#gamesTableTitle{
+  color: #d7c826;
+font-size: 50px;
+text-align: center;
+}
 .gamesTable {
-   background-color: #3f2a47;
-  background-color: #3f2a47;
-background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+  
   border: solid #d7c826 3px;
   border-radius: 10px;
-  display: flex;
   justify-content: center;
-  flex-direction: column;
   margin-top: 100px;
   margin-left: 20px;
   margin-right: 20px;
@@ -197,51 +205,47 @@ background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
   color: #d7c826;
 
 }
+
+
 .secondTable{
-
-  margin-left: 3%;
-  margin-bottom: 100px;
-}
-
-
-tbody td {
-  border-style: solid;
-  border-color: #d7c826;
-  text-align: center;
-  font-size: 13px;
-  padding: 5px;
-  align-self: center;
+color: #d7c826;
+    background-color: #3f2a47;
+    background-color: #3f2a47;
+    background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+    border: solid #d7c826 3px;
+    border-radius: 10px;
 }
 
 thead {
- 
+  
+  background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
   font-size: 20px;
 }
 thead td {
   text-align: center;
-    border: none;
   padding: 5px;
+}
+.tbodyGamesTable{
+
+ background-color: transparent;
+ color: black;
+
+}
+tbody td {
+  border-style: none;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px;
+  align-self: center;
+  color:white
 }
 #gameBtn {
   margin-bottom: 10px;
   border: none;
 }
-.homeImages {
-  display: flex;
-  flex-direction: row;
-}
-#truckLarge {
-  margin-top: 30px;
-  height: 210px;
-  width: 430px;
-  align-self: center;
-}
-#tacoLarge {
-  margin-top: 30px;
-  align-self: center;
-  height: 50px;
-  width: 50px;
-}
+
 /* GAME STYLE ----------------------------------------------------------------------------------*/
 #gameTitle {
   align-self: center;
@@ -336,12 +340,16 @@ thead td {
   margin-right: 0px;
 }
 
+
+
 .table_cells {
   border: 1px solid white;
   height: 35px;
   width: 35px;
   text-align: center;
   cursor: pointer;
+  background-color: transparent;
+
 }
 .table_cells_enemy {
   border: 1px solid white;
@@ -479,6 +487,29 @@ background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
   font-size: 35px;
   color: #d7c826;
 }
+.modal-content-info {
+  background-color: #3f2a47;
+  background-color: #3f2a47;
+background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+  margin: auto;
+  padding: 20px;
+ border: solid #d7c826 3px;
+  border-radius: 10px;  width: 80%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-content-info p {
+  align-self: center;
+  font-size: 20px;
+}
+.modal-content-info h2 {
+  font-size: 35px;
+  color: #d7c826;
+}
+
+
 /* The Close Button */
 .close {
   color: white;

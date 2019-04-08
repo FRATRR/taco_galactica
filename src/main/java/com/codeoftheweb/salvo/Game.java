@@ -62,7 +62,9 @@ public class Game {
         this.gameDate = gameDate;
     }
 
-
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
     }
+}
 
 

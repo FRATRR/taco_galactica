@@ -22,6 +22,7 @@ var app = new Vue({
     ship: null,
     length: null,
     turn: null,
+    remaningShips: null,
     horizontal: true,
     hide: true,
     vertical: false,
@@ -43,9 +44,26 @@ var app = new Vue({
     player: function() {
       if (this.player.Howto == true) {
         console.log("yes modal");
-        this.openModal();
+        this.openModal("howto");
       } else {
         console.log("no modal");
+      }
+    },
+    playerSalvoes: function() {
+      if (this.playerSalvoes != null) {
+        let obj = this.game.gamePlayers.find(
+          o => o.Player.Username != this.player.Username
+        );
+        for (var x = 0; x < this.playerSalvoes.length; x++) {
+          this.remaningShips = 5;
+          for (var y = 0; y < this.playerSalvoes[x].fleet.length; y++) {
+            if (this.playerSalvoes[x].fleet[y].Sunk) {
+              this.remaningShips -= 1;
+              console.log(this.playerSalvoes[x].fleet[y].type + " sunked");
+              console.log("counter" + counter);
+            }
+          }
+        }
       }
     }
   },
@@ -93,7 +111,9 @@ var app = new Vue({
             } else {
               app.placeShips = true;
             }
+            console.log("checking ship GET DATA");
             app.checkShip();
+            app.checkHits();
             app.checkSalvoes();
           });
       }, 1000);
@@ -114,11 +134,16 @@ var app = new Vue({
     },
     //CHECKING GAME STATUS --------------------------------------------------------------------------------
 
-    // statusCheck() {
-    //   if ((this.ships.length = 5)) {
-    //     this.placeShips = false;
-    //   }
-    // },
+    statusCheck() {
+      console.log("status check");
+      for (var x = 0; x < this.playerSalvoes.length; x++) {
+        for (var y = 0; y > this.playerSalvoes[x].fleet.length; y++) {
+          if (this.playerSalvoes[x].fleet[y].Sunk) {
+            console.log(this.playerSalvoes[x].fleet[y].type + " sunked");
+          }
+        }
+      }
+    },
 
     //POST DATA --------------------------------------------------------------------------------
     postShips() {
@@ -160,9 +185,7 @@ var app = new Vue({
           .then(function(data) {
             console.log("Request success: ", data.status);
             if (data.status == 403) {
-              alert(
-                "You cannot shoot yet. Wait for opponent to place the ships"
-              );
+              app.openModal("salvoShipAlert");
               for (var i = 0; i < app.selectedSalvoes.length; i++) {
                 console.log("removing -> " + app.selectedSalvoes[i] + "s");
                 document
@@ -170,7 +193,7 @@ var app = new Vue({
                   .classList.remove("salvo");
               }
             } else if (data.status == 200) {
-              alert("You cannot shoot yet. Opponent still shooting.");
+              app.openModal("salvoShootingAlert");
               for (var i = 0; i < app.selectedSalvoes.length; i++) {
                 console.log("removing -> " + app.selectedSalvoes[i] + "s");
                 document
@@ -206,7 +229,7 @@ var app = new Vue({
     },
 
     checkSalvoes() {
-      console.log("checking salvoes");
+      // console.log("checking salvoes");
 
       for (let gp of this.game.gamePlayers) {
         if (this.player.Username == gp.Player.Username) {
@@ -240,15 +263,14 @@ var app = new Vue({
     },
     //SHIPS -> checking hits --------------------------------------------------------------------------------------------------------
     checkShip() {
-      this.checkHits();
-
+      console.log("checking ship");
       // setting correct ships to logged in player
       for (var i = 0; i < this.game.gamePlayers.length; i++) {
         if (this.player.Username != this.game.gamePlayers[i].Player.Username) {
           this.salvoes = this.game.gamePlayers[i].salvos;
         }
         if (this.player.Username == this.game.gamePlayers[i].Player.Username) {
-          this.playerSalvoes = this.game.gamePlayers[i].salvos[0].shots;
+          this.playerSalvoes = this.game.gamePlayers[i].salvos;
         }
       }
 
@@ -258,6 +280,7 @@ var app = new Vue({
       this.ships = this.game.ships;
       for (var d = 0; d < this.ships.length; d++) {
         for (var g = 0; g < this.ships[d].Locations.length; g++) {
+          console.log("adding drop CHECK SHIP");
           document
             .getElementById(this.ships[d].Locations[g])
             .classList.add("drop");
@@ -265,7 +288,9 @@ var app = new Vue({
       }
       // adding hits and salvoes
       for (var x = 0; x < this.salvoes.length; x++) {
+        console.log("salvoes length ->" + this.salvoes.length);
         for (var e = 0; e < this.salvoes[x].shots.length; e++) {
+          console.log("shots length ->" + this.salvoes[x].shots.length);
           for (var y = 0; y < this.ships.length; y++) {
             for (var i = 0; i < this.ships[y].Locations.length; i++) {
               if (this.ships[y].Locations[i] == this.salvoes[x].shots[e]) {
@@ -287,6 +312,7 @@ var app = new Vue({
           }
         }
       }
+      this.checkHits();
     },
 
     //------- DRAG AND DROP + ROTATE-------------------------------------------------------------------------------------------
@@ -511,9 +537,10 @@ var app = new Vue({
     //------- MODAL-------------------------------------------------------------------------------------------
 
     openModal(selectedModal) {
-      console.log("opening modal ->" + selectedModal);
+      console.log("opening modal");
       document.getElementById(selectedModal).style.visibility = "visible";
-      this.modal.style.display = "block";
+      var modal = document.getElementById(selectedModal);
+      modal.style.display = "block";
     },
     closeModal(selectedModal) {
       console.log("closing modal");
