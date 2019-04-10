@@ -16,19 +16,30 @@ public class Ship {
     private String shipType;
     private boolean sunk;
     @ElementCollection
-    @Column(name="location_id")
+    @Column(name = "location_id")
     private List<String> locations;
 
-    //Game Player Relation----------------------------------------------------------------
+    //Game Player connection----------------------------------------------------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "gamePlayer_id")
     private GamePlayer gamePlayer;
 
+    //Constructor----------------------------------------------------------------
+    public Ship() {
+    }
+
+    public Ship(String shipType, GamePlayer gamePlayer, List locations) {
+        this.shipType = shipType;
+        this.gamePlayer = gamePlayer;
+        this.locations = locations;
+        this.sunk = false;
+    }
 
     //Getters and Setter Game Player----------------------------------------------------------------
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }
+
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
@@ -57,16 +68,6 @@ public class Ship {
         this.sunk = sunk;
     }
 
-    //Constructor----------------------------------------------------------------
-    public Ship() {
-    }
-
-    public Ship(String shipType, GamePlayer gamePlayer, List locations) {
-        this.shipType = shipType;
-        this.gamePlayer = gamePlayer;
-        this.locations = locations;
-        this.sunk = false;
-    }
 
 }
 

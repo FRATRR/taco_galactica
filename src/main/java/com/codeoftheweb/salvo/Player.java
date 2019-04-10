@@ -16,7 +16,7 @@ public class Player {
     private String password;
     private Boolean removeHowto;
 
-    //Connect to GamePlayer----------------------------------------------------------------------------------------------------------------
+    //GamePlayer connection----------------------------------------------------------------------------------------------------------------
 
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     Set<GamePlayer> gameplayers;
@@ -26,7 +26,7 @@ public class Player {
         gamePlayer.setPlayer(this);
         gameplayers.add(gamePlayer);
     }
-    //Connect to Score----------------------------------------------------------------------------------------------------------------
+    //Score connection----------------------------------------------------------------------------------------------------------------
 
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     Set<Score> scores;
@@ -70,6 +70,12 @@ public class Player {
         return removeHowto;
     }
 
+    public Score getScore(Game game){
+        return this.scores.stream().filter(score -> score.getGame().equals(game)).findFirst().orElse(null);
+    }
+
+
+
     //Setters----------------------------------------------------------------------------------------------------------------
     public void setUserName(String userName) {
         this.userName = userName;
@@ -82,6 +88,5 @@ public class Player {
     public void setRemoveHowto(Boolean removeHowto) {
         this.removeHowto = removeHowto;
     }
-    //Return----------------------------------------------------------------------------------------------------------------
 
 }

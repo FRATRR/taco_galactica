@@ -28,8 +28,6 @@ public class SalvoController {
     private ScoreRepository scoreRepository;
 
 
-    private Boolean endGame = false;
-
     // Games list + url --------------------------------------------------------------------------------------------------------------------
     @RequestMapping("/games")
     public Map<String, Object> getGames(Authentication authentication) {
@@ -69,6 +67,17 @@ public class SalvoController {
         return info;
     }
 
+    //Scores
+    @RequestMapping("/scores")
+    public Map<String, Object> allScores(Score score) {
+        Map<String, Object> info = new HashMap<>();
+        info.put("Scores", scoreRepository.findAll().stream()
+                .map(score1 -> scoreInfo(score1))
+                .collect(Collectors.toList()));
+        return info;
+
+    }
+
 
     // Game view   + url --------------------------------------------------------------------------------------------------------------------
     @RequestMapping(path = "/game_view/{gamePlayerId}")
@@ -98,10 +107,7 @@ public class SalvoController {
         if (currentGame.getGameplayers().size() < 2) {
             Player currentPlayer = playerRepository.findByUserName(authentication.getName());
             GamePlayer newGP = gamePlayerRepository.save(new GamePlayer(currentPlayer, currentGame));
-            //return gameViewInfo(newGP);
-            //return ResponseEntity.status(HttpStatus.CREATED).body(newGP.getId());
-            //  return new ResponseEntity<>(newGP, HttpStatus.CREATED);
-            // return  new ResponseEntity<>(newGP.getId(),HttpStatus.CREATED);
+
             return new ResponseEntity<>(sendInfo("gp", newGP.getId()), HttpStatus.CREATED);
 
         } else {
@@ -126,36 +132,57 @@ public class SalvoController {
         ) {
             if (shipPlayer.isSunk()) {
 
-                playerCounter -= 1;
+                opponentCounter -= 1;
             }
         }
         for (Ship shipOpponent : getOpponent(gamePlayer).getShips()
         ) {
             if (shipOpponent.isSunk()) {
 
-                opponentCounter -= 1;
+                playerCounter -= 1;
             }
         }
         System.out.println("Player counter ->" + playerCounter);
         System.out.println("Opponent counter ->" + opponentCounter);
         System.out.println("Player turn ->" + gamePlayer.getSalvos().size());
         System.out.println("Player turn ->" + getOpponent(gamePlayer).getSalvos().size());
+
         if ((playerCounter == 0) && (opponentCounter == 0) && (gamePlayer.getSalvos().size() == getOpponent(gamePlayer).getSalvos().size())) {
 
-            System.out.println("TIE");
-            endGame = true;
+            System.out.println(" TIE --- player -> " + gamePlayer.getPlayer().getScore(gamePlayer.getGame()));
+            System.out.println(" TIE --- opponent ->" + getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()));
+
+            if ((gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) && (getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()) == null)) {
+
+                System.out.println("adding score");
+                scoreRepository.save(new Score(.5, new Date(), gamePlayer.getPlayer(), gamePlayer.getGame()));
+                scoreRepository.save(new Score(.5, new Date(), getOpponent(gamePlayer).getPlayer(), gamePlayer.getGame()));
+            }
             return ("tie");
 
-        } else if ((playerCounter == 0) && (opponentCounter != 0) && (gamePlayer.getSalvos().size() == getOpponent(gamePlayer).getSalvos().size())) {
+
+        } else if (((playerCounter == 0) && (opponentCounter != 0) && (gamePlayer.getSalvos().size() == getOpponent(gamePlayer).getSalvos().size()))) {
 
             System.out.println("WIN");
-            endGame = true;
+            if ((gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) && (getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()) == null)) {
+
+                System.out.println("adding score");
+                scoreRepository.save(new Score(1.0, new Date(), gamePlayer.getPlayer(), gamePlayer.getGame()));
+                scoreRepository.save(new Score(0.0, new Date(), getOpponent(gamePlayer).getPlayer(), gamePlayer.getGame()));
+            }
+
             return ("win");
+
 
         } else if ((playerCounter != 0) && (opponentCounter == 0) && (gamePlayer.getSalvos().size() == getOpponent(gamePlayer).getSalvos().size())) {
 
             System.out.println("LOST");
-            endGame = true;
+            if ((gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) && (getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()) == null)) {
+
+                System.out.println("adding score");
+                scoreRepository.save(new Score(0.0, new Date(), gamePlayer.getPlayer(), gamePlayer.getGame()));
+                scoreRepository.save(new Score(1.0, new Date(), getOpponent(gamePlayer).getPlayer(), gamePlayer.getGame()));
+            }
             return ("lost");
 
         } else {
@@ -261,31 +288,30 @@ public class SalvoController {
         Player currentPlayer = playerRepository.findByUserName(authentication.getName());
         GamePlayer currentGP = gamePlayerRepository.getOne(gamePlayerId);
         Integer turn = currentGP.getSalvos().size() + 1;
-        if (!endGame) {
-            if (getOpponent(currentGP) != null) {
-                if (currentPlayer.getId() == currentGP.getPlayer().getId() && getOpponent(currentGP).getShips().size() == 5 && currentGP.getSalvos().size() <= getOpponent(currentGP).getSalvos().size()) {
-                    salvo.setGamePlayer(currentGP);
-                    salvo.setTurn(turn);
-                    salvoRepository.save(salvo);
+
+        if (getOpponent(currentGP) != null) {
+            if (currentPlayer.getId() == currentGP.getPlayer().getId() && getOpponent(currentGP).getShips().size() == 5 && currentGP.getSalvos().size() <= getOpponent(currentGP).getSalvos().size()) {
+                salvo.setGamePlayer(currentGP);
+                salvo.setTurn(turn);
+                salvoRepository.save(salvo);
 
 
-                    return new ResponseEntity<>("Salvoes added", HttpStatus.CREATED);
+                return new ResponseEntity<>("Salvoes added", HttpStatus.CREATED);
 
-                } else if (currentPlayer.getId() != currentGP.getPlayer().getId()) {
-                    return new ResponseEntity<>("Log in or signup", HttpStatus.UNAUTHORIZED);
+            } else if (currentPlayer.getId() != currentGP.getPlayer().getId()) {
+                return new ResponseEntity<>("Log in or signup", HttpStatus.UNAUTHORIZED);
 
-                } else if (getOpponent(currentGP).getShips().size() < 5) {
-                    return new ResponseEntity<>("Wait for opponent to place all the ships", HttpStatus.FORBIDDEN);
-                } else {
-                    return null;
-                }
-            } else if (getOpponent(currentGP) == null) {
-                return new ResponseEntity<>("No opponent", HttpStatus.FORBIDDEN);
-            } else {return null;}
+            } else if (getOpponent(currentGP).getShips().size() < 5) {
+                return new ResponseEntity<>("Wait for opponent to place all the ships", HttpStatus.FORBIDDEN);
+            } else {
+                return null;
+            }
+        } else if (getOpponent(currentGP) == null) {
+            return new ResponseEntity<>("No opponent", HttpStatus.FORBIDDEN);
         } else {
-      return new ResponseEntity<>("Game has ended", HttpStatus.FORBIDDEN);
-
+            return null;
         }
+
     }
 
     //set up for all info --------------------------------------------------------------------------------------------------------------------------------
@@ -299,11 +325,6 @@ public class SalvoController {
         info.put("gamePlayers", game.getGameplayers().stream()
                 .map(gamePlayer -> gamePlayerInfo(gamePlayer))
                 .collect(Collectors.toList()));
-        info.put("Scores", game.getScores().stream()
-                .map(score -> scoreInfo(score))
-                .collect(Collectors.toList()));
-
-
         return info;
     }
 
@@ -318,9 +339,9 @@ public class SalvoController {
         info.put("ships", gamePlayer.getShips().stream()
                 .map(ship -> shipInfo(ship))
                 .collect(Collectors.toList()));
+
         info.put("gameState", gameState(gamePlayer));
-
-
+        info.put("Score", scoreInfo(gamePlayer.getPlayer().getScore(gamePlayer.getGame())));
         return info;
     }
 
@@ -407,8 +428,6 @@ public class SalvoController {
                     }
                     //adding info to ship obj
 
-                    String state = gameState(gamePlayer);
-
 
                     shipStatus.put("type", ship.getShipType());
                     shipStatus.put("Sunk", ship.getLocations().size() <= accHits.size());
@@ -448,12 +467,22 @@ public class SalvoController {
         return gamePlayer.getGame().getGameplayers().stream().filter(gp -> gp.getId() != gamePlayer.getId()).findFirst().orElse(null);
     }
 
+
     public Map<String, Object> scoreInfo(Score score) {
         Map<String, Object> info = new LinkedHashMap<>();
-        info.put("Player", playerInfo(score.getPlayer()));
-        info.put("Score", score.getScore());
-        info.put("End", score.getEndDate());
-        return info;
+        if (score != null) {
+            info.put("Game", score.getGame().getId());
+            info.put("Player", playerInfo(score.getPlayer()));
+            info.put("Score", score.getScore());
+            info.put("End", score.getEndDate());
+            return info;
+        } else {
+            info.put("Player", null);
+            info.put("Score", null);
+            info.put("End", null);
+
+            return info;
+        }
     }
 
     public Map<String, Object> gamePlayersOnlyInfo(GamePlayer gamePlayer) {

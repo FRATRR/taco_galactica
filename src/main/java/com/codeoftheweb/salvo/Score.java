@@ -15,12 +15,12 @@ public class Score {
     private double score;
     private Date endDate;
 
-    //Player Relation----------------------------------------------------------------
+    //Player connection----------------------------------------------------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id")
     private Player player;
 
-    //Game Relation----------------------------------------------------------------
+    //Game connection----------------------------------------------------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
     private Game game;

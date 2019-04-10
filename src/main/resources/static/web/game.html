@@ -80,7 +80,6 @@
         <div id="salvoShootingAlert" class="modal">
           <!-- Modal content -->
           <div class="modal-content-info">
-            <span v-on:click="closeModal('salvoShootingAlert')" class="close">&times;</span>
             <div class="infoTxt">
               <h2>
                 You cannot shoot yet!
@@ -89,6 +88,38 @@
             </div>
           </div>
         </div>
+          <div id="tieAlert" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content-info">
+              <div class="infoTxt">
+                <h2>
+You Tied!                </h2>
+                  <button v-on:click="goHome">Home</button>
+
+              </div>
+            </div>
+          </div>
+            <div id="winAlert" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content-info">
+                <div class="infoTxt">
+                  <h2>You Won!</h2>
+                                    <button v-on:click="goHome">Home</button>
+
+                </div>
+              </div>
+            </div>
+              <div id="lossAlert" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content-info">
+            
+                  <div class="infoTxt">
+                    <h2>
+You Lost!                    </h2>
+                   <button v-on:click="goHome">Home</button>
+                  </div>
+                </div>
+              </div>
 
 
         <!---TABLE 1 player ships + enemy hits-------------------->

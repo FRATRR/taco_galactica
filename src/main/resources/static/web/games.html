@@ -21,15 +21,15 @@
       <div class="menu_table_div">
         <!---menu------------------------------------------------------------------------------------>
         <div class="menu">
-          <h2>Welcome {{ player.Username }}</h2>
+          <h2 v-if="player != null">Welcome {{ player.Username }}</h2>
           <img src="./assets/tacoLarge.png" id="menuTaco" draggable="false" />
           <button v-on:click="newGame" id="menuBtns">New Game</button>
-          <button v-on:click="muteMusic('introSong')" id="menuBtns">
+          <button v-on:click="pauseMusic('introSong')" id="menuBtns">
             Mute music
           </button>
           <button v-on:click="logout" id="menuBtns">Logout</button>
         </div>
-        <div class="secondTableDiv">
+        <div class="secondTableDiv" v-if="player != null">
           <h2 id="gamesTableTitle">games</h2>
           <table
             class="secondtable"
@@ -95,11 +95,47 @@
           <!-- games table div ends under-->
         </div>
       </div>
-      <!-- SECOND TABLE-->
+      <!-- SCORE TABLE-->
+      <div>
+        <h2 id="gamesTableTitle">Scores</h2>
+        <table
+          class="secondtable"
+          style="
+    color: #d7c826;
+    background-color: #3f2a47;
+    background-color: #3f2a47;
+    background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
+    border: solid #d7c826 3px;
+    border-radius: 10px;
+"
+        >
+          <thead>
+            <tr>
+              <td>Game</td>
+              <td>End Date</td>
+              <td>Player</td>
+              <td>Score</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody class="tbodyGamesTable">
+            <tr v-for="score in scores" :key="score.Game" id="rowTable">
+              <td>{{ score.Game }}</td>
+              <td>{{ score.End }}</td>
 
-      <!-- menu div ends under -->
+              <!-- Player -->
+              <td>
+                {{ score.Player.Username }}
+              </td>
+              <td>
+                {{ score.Score }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-      <!-- vue app div ends under -->
+        <!-- games table div ends under-->
+      </div>
     </div>
     <script src=" https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="scripts/games.js"></script>

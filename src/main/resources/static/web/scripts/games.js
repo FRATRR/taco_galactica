@@ -9,6 +9,7 @@ var app = new Vue({
     gameList: [],
     playerGames: [],
     otherGames: [],
+    scores: [],
     userName: "player_one@salvo.com",
     password: "password1",
     new_userName: "",
@@ -17,8 +18,10 @@ var app = new Vue({
     current_players: []
   },
   created: function() {
+    // if (this.getData)
     this.getData();
     this.getPlayer();
+    this.getScores();
     if ((window.location.contains = "games")) {
       this.playMusic("introSong");
     }
@@ -26,7 +29,6 @@ var app = new Vue({
   methods: {
     playMusic(song) {
       console.log(song);
-      // var x = document.getElementById(song);
       var media = document.getElementById(song);
       const playPromise = media.play();
       if (playPromise !== null) {
@@ -34,6 +36,11 @@ var app = new Vue({
           media.play();
         });
       }
+    },
+    pauseMusic(song) {
+      console.log("mute");
+      var x = document.getElementById(song);
+      x.pause();
     },
 
     muteMusic(song) {
@@ -64,23 +71,27 @@ var app = new Vue({
 
     //------- GET LOGGED IN PLAYER GAMES -------------------------------------------------------------------------------------------
     getPlayerGames() {
+      console.log(this.gameList.player);
+      if (this.gameList.player == null) {
+        return null;
+      }
+
       for (var x = 0; x < this.gameList.games.length; x++) {
         for (var y = 0; y < this.gameList.games[x].gamePlayers.length; y++) {
           if (
+            this.gameList.games[x].gamePlayers[y].Player &&
             this.gameList.games[x].gamePlayers[y].Player.Username ==
-            this.gameList.player.Username
+              this.gameList.player.Username
           ) {
             this.playerGames.push(this.gameList.games[x]);
             // var index = this.gameList.indexOf(this.gameList.games[x]);
             // console.log("index -> " + index);
             // this.openGames.splice(2, 1);
           } else if (
+            this.gameList.games[x].gamePlayers[y].Player &&
             this.gameList.games[x].gamePlayers[y].Player.Username !=
-            this.gameList.player.Username
+              this.gameList.player.Username
           ) {
-            console.log(
-              "2nd if --->> game id --->> " + this.gameList.games[x].id
-            );
             this.otherGames.push(this.gameList.games[x]);
           }
         }
@@ -100,6 +111,28 @@ var app = new Vue({
         })
         .then(function(jsonData) {
           app.player = jsonData.player;
+        })
+        .catch(function(error) {
+          console.log("Request failed" + error.message);
+        });
+    },
+    //------- GET LOGGED SCORES -------------------------------------------------------------------------------------------
+    getScores() {
+      fetch("/api/scores")
+        .then(function(response) {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Unable to retrieve data");
+          }
+        })
+        .then(function(jsonData) {
+          for (var x = 0; x < jsonData.Scores.length; x++) {
+            let date = new Date(jsonData.Scores[x].End);
+            jsonData.Scores[x].End = date.toLocaleString();
+          }
+          console.log(jsonData.Scores);
+          app.scores = jsonData.Scores;
         })
         .catch(function(error) {
           console.log("Request failed" + error.message);

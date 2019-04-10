@@ -13,26 +13,26 @@ public class GamePlayer {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
-    //Player Relation----------------------------------------------------------------
+    //Player connection----------------------------------------------------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id")
     private Player player;
 
-    //Game Relation----------------------------------------------------------------
+    //Game connection----------------------------------------------------------------
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
     private Game game;
 
-    //Ship Relation----------------------------------------------------------------
+    //Ship connection----------------------------------------------------------------
     @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
     private Set<Ship> ships = new HashSet<>();
 
-    //Salvo Relation----------------------------------------------------------------
+    //Salvo connection----------------------------------------------------------------
     @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
     private Set<Salvo> salvos = new HashSet<>();
 
-    //Constructor----------------------------------------------------------------
+    //Constructors----------------------------------------------------------------
 
     public GamePlayer() {
     }
@@ -63,6 +63,8 @@ public class GamePlayer {
         return salvos;
     }
 
+
+
     //Setters----------------------------------------------------------------
 
     public void setPlayer(Player player) {
@@ -74,11 +76,10 @@ public class GamePlayer {
     }
 
 
-
-    public String toString(){
-        return "GamePlayer: "+this.getId();
+    public String toString() {
+        return "GamePlayer: " + this.getId();
     }
-//Add----------------------------------------------------------------
+    //Add----------------------------------------------------------------
 
     public void addShips(Ship ship) {
         ship.setGamePlayer(this);

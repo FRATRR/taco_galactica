@@ -112,6 +112,13 @@ var app = new Vue({
               app.placeShips = true;
             }
             console.log("checking ship GET DATA");
+            if (app.game.gameState == "tie") {
+              app.openModal("tieAlert");
+            } else if (app.game.gameState == "win") {
+              app.openModal("winAlert");
+            } else if (app.game.gameState == "lost") {
+              app.openModal("lossAlert");
+            }
             app.checkShip();
             app.checkHits();
             app.checkSalvoes();

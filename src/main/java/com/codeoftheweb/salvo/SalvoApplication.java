@@ -105,7 +105,7 @@ public class SalvoApplication {
             salvoRepo.save(salvo4);
 
             //Add score -------------------------------------------------------------------------------------------
-            Score score1 = new Score(1, new Date(), p1, g1);
+           /* Score score1 = new Score(1, new Date(), p1, g1);
             Score score2 = new Score(0, new Date(), p2, g1);
             Score score3 = new Score(.5, new Date(), p3, g2);
             Score score4 = new Score(.5, new Date(), p4, g2);
@@ -113,7 +113,7 @@ public class SalvoApplication {
             scoreRepo.save(score1);
             scoreRepo.save(score2);
             scoreRepo.save(score3);
-            scoreRepo.save(score4);
+            scoreRepo.save(score4);*/
 
         };
 
@@ -174,7 +174,7 @@ public class SalvoApplication {
                     .loginPage("/api/login");
             http.logout().logoutUrl("/api/logout");
 
-
+            http.headers().frameOptions().disable();
             // turn off checking for CSRF tokens
             http.csrf().disable();
 
@@ -189,6 +189,7 @@ public class SalvoApplication {
 
             // if logout is successful, just send a success response
             http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+
         }
 
         private void clearAuthenticationAttributes(HttpServletRequest request) {
