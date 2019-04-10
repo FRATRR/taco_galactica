@@ -84,9 +84,6 @@ var app = new Vue({
               this.gameList.player.Username
           ) {
             this.playerGames.push(this.gameList.games[x]);
-            // var index = this.gameList.indexOf(this.gameList.games[x]);
-            // console.log("index -> " + index);
-            // this.openGames.splice(2, 1);
           } else if (
             this.gameList.games[x].gamePlayers[y].Player &&
             this.gameList.games[x].gamePlayers[y].Player.Username !=
@@ -264,11 +261,6 @@ var app = new Vue({
 
     //------- NEW GAME -------------------------------------------------------------------------------------------
     newGame() {
-      // var ourData = {
-      //   userName: this.new_userName,
-      //   password: this.new_password
-      // };
-
       fetch("/api/games", {
         credentials: "include",
         headers: {
@@ -299,6 +291,18 @@ var app = new Vue({
         return body.join("&");
       }
     },
+    //------- LEADERBOARD -------------------------------------------------------------------------------------------
+    //     getLeaderboard() {
+    // for (var x = 0; x < this.scores.length; x++){
+    // for(var y = 1; y < this.scores.length. y++){
+
+    //   if(this.scores[x].Player.Username == this.scores)
+    // }
+
+    // }
+
+    //     },
+
     //------- CAROUSEL TESTING -------------------------------------------------------------------------------------------
 
     shiftLeft(e) {

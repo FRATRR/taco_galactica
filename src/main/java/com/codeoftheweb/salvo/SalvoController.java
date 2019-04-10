@@ -350,6 +350,9 @@ public class SalvoController {
 
         info.put("gpid", gamePlayer.getId());
         info.put("Player", playerInfo(gamePlayer.getPlayer()));
+        if((gamePlayer.getPlayer().getScore(gamePlayer.getGame())) != null) {
+            info.put("Score", gamePlayer.getPlayer().getScore(gamePlayer.getGame()).getScore());
+        }
         info.put("salvos", salvoInfo(gamePlayer));
         return info;
     }

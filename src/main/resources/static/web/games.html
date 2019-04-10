@@ -48,7 +48,7 @@
                 <td>Date</td>
                 <td>Player One</td>
                 <td>Player Two</td>
-                <td></td>
+                <td>Game Status</td>
               </tr>
             </thead>
             <tbody class="tbodyGamesTable">
@@ -70,23 +70,32 @@
                 <td v-if="game.gamePlayers.length == 1">
                   Waiting for opponent
                 </td>
-                <td>
+                <td v-if="game.gamePlayers[0].Score==null">
+                  Game has not ended
+                </td>
+                <td
+                  v-for=" gamePlayer in game.gamePlayers"
+                  v-if="gamePlayer.Score==null"
+                >
                   <button
-                    style="color: black; background-color: transparent;"
-                    v-for=" gamePlayer in game.gamePlayers"
-                    v-if="player.Username != null && player.Username == gamePlayer.Player.Username "
+                    style="color: white; background-color: transparent;"
+                    v-if="player.Username != null && player.Username == gamePlayer.Player.Username"
                     v-on:click="openGame(game.id)"
                   >
                     Go to Game
                   </button>
                   <button
-                    style="color: black; background-color: transparent;"
-                    v-for=" gamePlayer in game.gamePlayers"
-                    v-if="player.Username != null && player.Username != gamePlayer.Player.Username && game.gamePlayers.length == 1 "
+                    style="color: white; background-color: transparent;"
+                    v-if="player.Username != null && player.Username != gamePlayer.Player.Username && game.gamePlayers.length == 1"
                     v-on:click="join(game.id)"
                   >
                     Join
                   </button>
+                </td>
+                <td v-if="game.gamePlayers[0].Score!=null">
+                  {{ game.gamePlayers[0].Score }}
+                  -
+                  {{ game.gamePlayers[1].Score }}
                 </td>
               </tr>
             </tbody>
@@ -94,47 +103,6 @@
 
           <!-- games table div ends under-->
         </div>
-      </div>
-      <!-- SCORE TABLE-->
-      <div>
-        <h2 id="gamesTableTitle">Scores</h2>
-        <table
-          class="secondtable"
-          style="
-    color: #d7c826;
-    background-color: #3f2a47;
-    background-color: #3f2a47;
-    background-image: linear-gradient(326deg, #3f2a47 0%, #FD279E 185%);
-    border: solid #d7c826 3px;
-    border-radius: 10px;
-"
-        >
-          <thead>
-            <tr>
-              <td>Game</td>
-              <td>End Date</td>
-              <td>Player</td>
-              <td>Score</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody class="tbodyGamesTable">
-            <tr v-for="score in scores" :key="score.Game" id="rowTable">
-              <td>{{ score.Game }}</td>
-              <td>{{ score.End }}</td>
-
-              <!-- Player -->
-              <td>
-                {{ score.Player.Username }}
-              </td>
-              <td>
-                {{ score.Score }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- games table div ends under-->
       </div>
     </div>
     <script src=" https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
