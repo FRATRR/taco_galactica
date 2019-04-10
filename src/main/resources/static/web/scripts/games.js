@@ -153,7 +153,7 @@ var app = new Vue({
       })
         .then(function(data) {
           console.log("Request success: ", data);
-          location.href = "http://localhost:8080/web/games.html";
+          location.href = "/web/games.html";
         })
         .catch(function(error) {
           console.log("Request failure: ", error);
@@ -174,7 +174,7 @@ var app = new Vue({
     logout() {
       fetch("/api/logout");
       console.log("logout");
-      location.href = "http://localhost:8080/web/login.html";
+      location.href = "/web/login.html";
     },
 
     //------- SIGNUP -------------------------------------------------------------------------------------------
@@ -231,8 +231,7 @@ var app = new Vue({
           this.current_game.gamePlayers[i].Player.Username
         ) {
           var url =
-            "http://localhost:8080/web/game.html?gp=" +
-            this.current_game.gamePlayers[i].gpid;
+            "/web/game.html?gp=" + this.current_game.gamePlayers[i].gpid;
           console.log(url);
           location.href = url;
         }
@@ -241,7 +240,7 @@ var app = new Vue({
 
     //------- JOIN GAME -------------------------------------------------------------------------------------------
     join(id) {
-      url = "http://localhost:8080/api/game/" + id + "/players";
+      url = "/api/game/" + id + "/players";
 
       fetch(url)
         .then(function(response) {
@@ -253,7 +252,7 @@ var app = new Vue({
         })
         .then(function(jsonData) {
           console.log(jsonData.gp);
-          var url = "http://localhost:8080/web/game.html?gp=" + jsonData.gp;
+          var url = "/web/game.html?gp=" + jsonData.gp;
           console.log(url);
           location.href = url;
         });

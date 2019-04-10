@@ -96,7 +96,7 @@ var app = new Vue({
     // all data
     getData() {
       setInterval(function() {
-        fetch("http://localhost:8080/api/game_view/" + app.getURL())
+        fetch("/api/game_view/" + app.getURL())
           .then(function(response) {
             if (response.ok) {
               return response.json();
@@ -127,7 +127,7 @@ var app = new Vue({
     },
     //current logged in player
     getPlayer() {
-      fetch("http://localhost:8080/api/games")
+      fetch("/api/games")
         .then(function(response) {
           if (response.ok) {
             return response.json();
@@ -554,7 +554,7 @@ var app = new Vue({
       document.getElementById(selectedModal).style.visibility = "hidden";
     },
     goHome() {
-      location.href = "http://localhost:8080/web/games.html";
+      location.href = "/web/games.html";
     },
 
     removeModal() {
