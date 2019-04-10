@@ -39,7 +39,7 @@ public class SalvoApplication {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     }
-    
+
     @SpringBootApplication
     public class Application extends SpringBootServletInitializer {
 
