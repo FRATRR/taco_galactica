@@ -412,7 +412,7 @@ public class SalvoController {
                         // 4th loop SALVO LOCATIONS
                         for (String salvoLoc : salvo.getShotsLocations()) {
 
-                            if (shipLoc == salvoLoc) {
+                            if (shipLoc.equals(salvoLoc) ) {
 
                                 turnHits.add(shipLoc);
                             }
@@ -420,7 +420,7 @@ public class SalvoController {
                         //4th loop ACC SALVO LOCATIONS
                         for (String salvoLoc2 : accSalvoes) {
 
-                            if (shipLoc == salvoLoc2) {
+                            if (shipLoc.equals(salvoLoc2) ) {
 
                                 accHits.add(shipLoc);
                             }
