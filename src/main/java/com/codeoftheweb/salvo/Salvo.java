@@ -63,4 +63,3 @@ public class Salvo {
         return "Salvo: "+turn+" locs: "+shotsLocations;
     }
 }
-    //Setters----------------------------------------------------------------

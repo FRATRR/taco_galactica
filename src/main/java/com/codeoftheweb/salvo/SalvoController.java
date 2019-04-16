@@ -142,15 +142,9 @@ public class SalvoController {
                 playerCounter -= 1;
             }
         }
-        System.out.println("Player counter ->" + playerCounter);
-        System.out.println("Opponent counter ->" + opponentCounter);
-        System.out.println("Player turn ->" + gamePlayer.getSalvos().size());
-        System.out.println("Player turn ->" + getOpponent(gamePlayer).getSalvos().size());
+
 
         if ((playerCounter == 0) && (opponentCounter == 0) && (gamePlayer.getSalvos().size() == getOpponent(gamePlayer).getSalvos().size())) {
-
-            System.out.println(" TIE --- player -> " + gamePlayer.getPlayer().getScore(gamePlayer.getGame()));
-            System.out.println(" TIE --- opponent ->" + getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()));
 
             if ((gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) && (getOpponent(gamePlayer).getPlayer().getScore(gamePlayer.getGame()) == null)) {
 
@@ -210,10 +204,8 @@ public class SalvoController {
             return new ResponseEntity<>("Log in", HttpStatus.UNAUTHORIZED);
 
         }
-
-
     }
-//add new players----------------------------------------------------------------------------------------------------------------------------------------
+ //add new players----------------------------------------------------------------------------------------------------------------------------------------
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -374,7 +366,7 @@ public class SalvoController {
         return info;
     }
 
-    //---------------------             SALVO INFO                           ---------------------------------------------------
+    //Salvo Info ---------------------------------------------------
 
     public List<Object> salvoInfo(GamePlayer gamePlayer) {
 
@@ -431,7 +423,6 @@ public class SalvoController {
                     }
                     //adding info to ship obj
 
-
                     shipStatus.put("type", ship.getShipType());
                     shipStatus.put("Sunk", ship.getLocations().size() <= accHits.size());
 
@@ -464,11 +455,7 @@ public class SalvoController {
     }
 
 
-    public GamePlayer getOpponent(GamePlayer gamePlayer) {
 
-
-        return gamePlayer.getGame().getGameplayers().stream().filter(gp -> gp.getId() != gamePlayer.getId()).findFirst().orElse(null);
-    }
 
 
     public Map<String, Object> scoreInfo(Score score) {
@@ -504,6 +491,11 @@ public class SalvoController {
                 .map(gamePlayer -> gamePlayersOnlyInfo(gamePlayer))
                 .collect(Collectors.toList()));
         return info;
+    }
+    public GamePlayer getOpponent(GamePlayer gamePlayer) {
+
+
+        return gamePlayer.getGame().getGameplayers().stream().filter(gp -> gp.getId() != gamePlayer.getId()).findFirst().orElse(null);
     }
 
 

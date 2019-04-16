@@ -16,8 +16,8 @@
           <a v-on:click="openModal('howto')">How to play</a>
         </div>
       </div>
-    <h4>Turn -> {{playerSalvoes.length}}</h4>
-    <h4>Remaning Enemy Ships -> {{remaningShips}}</h4>
+    <!-- <h4>Turn -> {{playerSalvoes.length}}</h4>
+    <h4>Remaning Enemy Ships -> {{remaningShips}}</h4> -->
       <audio src="./assets/song.mp3" id="song"></audio>
       <audio src="./assets/beep.mp3" id="beep"></audio>
       <audio src="./assets/land.mp3" id="land"></audio>
@@ -80,6 +80,7 @@
         <div id="salvoShootingAlert" class="modal">
           <!-- Modal content -->
           <div class="modal-content-info">
+            <span v-on:click="closeModal('salvoShipAlert')" class="close">&times;</span>
             <div class="infoTxt">
               <h2>
                 You cannot shoot yet!
